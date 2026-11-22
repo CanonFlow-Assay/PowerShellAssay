@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "profile": "powershell-automation",
+  "sources": [
+    "Invoke-SampleWorker.ps1"
+  ],
+  "testInputs": [
+    "sample worker.py",
+    "test_sample.py"
+  ],
+  "requiredCommands": [
+    [
+      "python3",
+      "test_sample.py"
+    ]
+  ]
+}

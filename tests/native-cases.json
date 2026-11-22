@@ -1,0 +1,64 @@
+[
+  {
+    "name": "literal text is not a CommandAst",
+    "source": "Write-Output 'Invoke-Expression'\n",
+    "exit": 2
+  },
+  {
+    "name": "native parse error",
+    "source": "if ($true) {\n",
+    "exit": 1,
+    "rule": "PS001"
+  },
+  {
+    "name": "parse-time dependency guard",
+    "source": "using module ./Fixture.psm1\n",
+    "exit": 1,
+    "rule": "PS002",
+    "guardBeforeNative": true
+  },
+  {
+    "name": "requires directive is guarded",
+    "source": "#requires -Version 7.7\nWrite-Output 'ok'\n",
+    "exit": 1,
+    "rule": "PS002",
+    "guardBeforeNative": true
+  },
+  {
+    "name": "continued assembly directive is guarded",
+    "source": "using `\nassembly Fixture.dll\n",
+    "exit": 1,
+    "rule": "PS002",
+    "guardBeforeNative": true
+  },
+  {
+    "name": "direct qualified evaluator",
+    "source": "Microsoft.PowerShell.Utility\\Invoke-Expression '1 + 1'\n",
+    "exit": 1,
+    "rule": "PS003"
+  },
+  {
+    "name": "built-in evaluator alias",
+    "source": "IEX '1 + 1'\n",
+    "exit": 1,
+    "rule": "PS003"
+  },
+  {
+    "name": "comment-only exception handler",
+    "source": "try { Write-Output 'ok' } catch { <# empty #> }\n",
+    "exit": 1,
+    "rule": "PS004"
+  },
+  {
+    "name": "explicit suppressing parameter",
+    "source": "Get-Item -LiteralPath 'fixture' -ErrorAction:SilentlyContinue\n",
+    "exit": 2,
+    "rule": "PS005"
+  },
+  {
+    "name": "explicit global scope",
+    "source": "$global:AssaySample = 1\n",
+    "exit": 2,
+    "rule": "PS006"
+  }
+]

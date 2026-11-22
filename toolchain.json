@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "platform": "linux-x86_64",
+  "python": "3.12",
+  "qualifiedTools": {
+    "pwsh": "7.7.0"
+  },
+  "assets": [
+    {
+      "command": "pwsh",
+      "version": "7.7.0",
+      "url": "https://github.com/PowerShell/PowerShell/releases/download/v7.7.0/powershell-7.7.0-linux-x64.tar.gz",
+      "archive": "powershell-7.7.0-linux-x64.tar.gz",
+      "sha256": "c89d9c682d2c403dfe726f3df948e359675235a5bd6fab535776de69729ca0cb",
+      "size": 76881682,
+      "binary": "pwsh",
+      "githubAssetId": 732755786
+    }
+  ]
+}

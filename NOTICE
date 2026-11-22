@@ -1,0 +1,4 @@
+PowerShellAssay
+Copyright 2026 CanonFlow Foundation contributors
+
+Apache-2.0. The bounded command and receipt publication patterns draw on CanonFlow-Assay/PostgresAssay (58dfcef). Native dependencies are obtained separately from their upstream releases.

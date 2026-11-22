@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "assay": "PowerShellAssay",
+  "product": "powershell",
+  "profile": "powershell-automation",
+  "sourceExtensions": [
+    ".ps1",
+    ".psm1",
+    ".psd1"
+  ],
+  "nativeFiles": [
+    "inspect.ps1"
+  ],
+  "tools": [
+    {
+      "name": "pwsh",
+      "version": "7.7.0",
+      "versionArgs": [
+        "-NoLogo",
+        "-NoProfile",
+        "-NonInteractive",
+        "-Version"
+      ],
+      "versionPattern": "^PowerShell ([^\\s]+)",
+      "identityFiles": [
+        "System.Management.Automation.dll"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "PS001",
+      "severity": "blocking",
+      "title": "The PowerShell parser rejected the source.",
+      "predicate": "Parser.ParseInput returned at least one parse error.",
+      "source": "https://learn.microsoft.com/dotnet/api/system.management.automation.language.parser.parseinput"
+    },
+    {
+      "id": "PS002",
+      "severity": "blocking",
+      "title": "The source contains a parser-sensitive directive candidate.",
+      "predicate": "The lexical guard found using, configuration or #requires after accounting for backticks. The AST parser does not receive this source.",
+      "source": "https://github.com/PowerShell/PowerShell/blob/v7.7.0/src/System.Management.Automation/engine/parser/Parser.cs"
+    },
+    {
+      "id": "PS003",
+      "severity": "blocking",
+      "title": "Avoid direct Invoke-Expression evaluation.",
+      "predicate": "A CommandAst literal name is Invoke-Expression, iex, or Microsoft.PowerShell.Utility\\Invoke-Expression, ignoring case.",
+      "source": "https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/avoidusinginvokeexpression"
+    },
+    {
+      "id": "PS004",
+      "severity": "blocking",
+      "title": "A catch clause must contain a statement or a trap.",
+      "predicate": "A native CatchClauseAst has no body statements or traps.",
+      "source": "https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/avoidusingemptycatchblock"
+    },
+    {
+      "id": "PS005",
+      "severity": "advisory",
+      "title": "Review this literal error-suppression argument.",
+      "predicate": "A CommandAst uses an explicit -ErrorAction with the literal SilentlyContinue or Ignore.",
+      "source": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_commonparameters"
+    },
+    {
+      "id": "PS006",
+      "severity": "advisory",
+      "title": "Review this explicit global variable reference.",
+      "predicate": "VariableExpressionAst.VariablePath.IsGlobal is true.",
+      "source": "https://learn.microsoft.com/powershell/utility-modules/psscriptanalyzer/rules/avoidglobalvars"
+    }
+  ]
+}

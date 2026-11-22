@@ -1,0 +1,28 @@
+name: Qualify
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install verified native toolchain
+        run: |
+          python3 eng/install-native.py
+          printf '%s\n' "$PWD/artifacts/toolchain/bin" >> "$GITHUB_PATH"
+      - name: Test native cases and independent package
+        run: python3 eng/qualify.py
+      - name: Retain qualification evidence
+        if: always() && hashFiles('artifacts/qualification/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-assay-qualification
+          path: |
+            artifacts/qualification/
+            artifacts/*.pyz
+          retention-days: 14
